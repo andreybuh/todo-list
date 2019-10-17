@@ -1,12 +1,52 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import 'typeface-roboto'
+import '@material-ui/core'
 import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import Button from '@material-ui/core/Button';
 
-ReactDOM.render(<App />, document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+class AppComponent extends React.Component {
+    state = {
+        numChildren: 0
+    };
+
+    render () {
+        const children = [];
+
+        for (var i = 0; i < this.state.numChildren; i += 1) {
+            children.push(<ChildComponent key={i} number={i} />);
+        }
+
+        return (
+            <ParentComponent addChild={this.onAddChild}>
+                {children}
+            </ParentComponent>
+        );
+    }
+
+    onAddChild = () => {
+        this.setState({
+            numChildren: this.state.numChildren + 1
+        });
+    }
+}
+
+const ParentComponent = props => (
+    <div className="card calculator">
+        <p><a href="#" onClick={props.addChild}>Add Another Child Component</a></p>
+        <div id="children-pane">
+            {props.children}
+        </div>
+    </div>
+);
+
+const ChildComponent = props => <div>{"I am child " + props.number}</div>;
+
+
+// ========================================
+
+ReactDOM.render(
+    <AppComponent/>,
+    document.getElementById('root')
+);
