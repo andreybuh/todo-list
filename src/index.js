@@ -49,6 +49,7 @@ class App extends React.Component {
         // filter out the item being deleted item => item.id !== id
         const updatedList = listToDo.filter(function (item) {
             return item.id !== id
+
         });
 
 
@@ -58,12 +59,17 @@ class App extends React.Component {
     addDoneItem(id) {
         // copy current list of items
         const listToDo = [...this.state.listToDo];
+        const listNew = this.state.listDone;
+        listToDo.forEach(function (item, index, object) {
+            if (item.id === id) {
+                listNew.push(item);
+                listToDo.splice(index, 1);
+            }
+        });
 
-        const listNew = listToDo.splice(this.state.listToDo);
+        this.setState({listToDo: listToDo, listDone: listNew});
 
-        this.setState({listDone: listNew});
-
-        console.log(listNew, 'первый');
+        console.log(listNew);
         console.log(this.state.listDone);
     }
 
@@ -80,7 +86,7 @@ class App extends React.Component {
                             onChange={e => this.updateInput("newItem", e.target.value)}
                         />
                         <button onClick={() => this.addItem()} disabled={!this.state.newItem.length}>
-                            <i> + </i>
+                            <i> дабаветь </i>
                         </button>
                         <br/> <br/>
                         <ul>
@@ -89,7 +95,7 @@ class App extends React.Component {
                                     <li key={item.id}>
                                         {item.value}
                                         <button onClick={() => this.addDoneItem(item.id)}>
-                                            <i>x</i>
+                                            <i>гатова</i>
                                         </button>
                                     </li>
                                 );
