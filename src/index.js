@@ -57,7 +57,6 @@ class App extends React.Component {
     }
 
     addDoneItem(id) {
-        // copy current list of items
         const listToDo = [...this.state.listToDo];
         const listNew = this.state.listDone;
         listToDo.forEach(function (item, index, object) {
@@ -68,9 +67,19 @@ class App extends React.Component {
         });
 
         this.setState({listToDo: listToDo, listDone: listNew});
+    }
 
-        console.log(listNew);
-        console.log(this.state.listDone);
+    addToDoItem(id) {
+        const listDone = [...this.state.listDone];
+        const listNew = this.state.listToDo;
+        listDone.forEach(function (item, index, object) {
+            if (item.id === id) {
+                listNew.push(item);
+                listDone.splice(index, 1);
+            }
+        });
+
+        this.setState({listDone: listDone, listToDo: listNew});
     }
 
     render() {
@@ -86,7 +95,7 @@ class App extends React.Component {
                             onChange={e => this.updateInput("newItem", e.target.value)}
                         />
                         <button onClick={() => this.addItem()} disabled={!this.state.newItem.length}>
-                            <i> дабаветь </i>
+                            <i>Добавить</i>
                         </button>
                         <br/> <br/>
                         <ul>
@@ -95,7 +104,7 @@ class App extends React.Component {
                                     <li key={item.id}>
                                         {item.value}
                                         <button onClick={() => this.addDoneItem(item.id)}>
-                                            <i>гатова</i>
+                                            <i>Готово</i>
                                         </button>
                                     </li>
                                 );
@@ -107,8 +116,8 @@ class App extends React.Component {
                                 return (
                                     <li key={item.id}>
                                         {item.value}
-                                        <button onClick={() => this.deleteItem(item.id)}>
-                                            <i>x</i>
+                                        <button onClick={() => this.addToDoItem(item.id)}>
+                                            <i>Не готово</i>
                                         </button>
                                     </li>
                                 );
