@@ -12,48 +12,31 @@ class App extends React.Component {
         this.state = {
             newItem: "",
             listToDo: [],
-            listDone: []
+            listDone: [],
+            fields: {},
+            errors: {}
         };
     }
 
     updateInput(key, value) {
-        // update react state
         this.setState({[key]: value});
     }
 
     addItem() {
-        // create a new item with unique id
         const newItem = {
             id: 1 + Math.random(),
             value: this.state.newItem.slice()
 
         };
 
-        // copy current list of items
         const listToDo = [...this.state.listToDo];
-
-        // add the new item to the list
         listToDo.push(newItem);
 
-        // update state with new list, reset the new item input
         this.setState({
             listToDo,
             newItem: ""
         });
 
-    }
-
-    deleteItem(id) {
-        // copy current list of items
-        const listToDo = [...this.state.listToDo];
-        // filter out the item being deleted item => item.id !== id
-        const updatedList = listToDo.filter(function (item) {
-            return item.id !== id
-
-        });
-
-
-        this.setState({listToDo: updatedList});
     }
 
     addDoneItem(id) {
@@ -82,10 +65,17 @@ class App extends React.Component {
         this.setState({listDone: listDone, listToDo: listNew});
     }
 
+    handleKeyDown = (e) => {
+        if (e.key === 'Enter' && this.state.newItem.length) {
+            this.addItem();
+        }
+    };
+
     render() {
         return (
             <div>
                 <div className="container">
+
                     <div>
                         <br/>
                         <input
@@ -93,6 +83,7 @@ class App extends React.Component {
                             placeholder="Type item here"
                             value={this.state.newItem}
                             onChange={e => this.updateInput("newItem", e.target.value)}
+                            onKeyDown={this.handleKeyDown}
                         />
                         <button onClick={() => this.addItem()} disabled={!this.state.newItem.length}>
                             <i>Добавить</i>
