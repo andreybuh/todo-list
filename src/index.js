@@ -12,9 +12,7 @@ class App extends React.Component {
         this.state = {
             newItem: "",
             listToDo: [],
-            listDone: [],
-            fields: {},
-            errors: {}
+            listDone: []
         };
     }
 
@@ -80,13 +78,13 @@ class App extends React.Component {
                         <br/>
                         <input
                             type="text"
-                            placeholder="Type item here"
+                            placeholder="Введите текст..."
                             value={this.state.newItem}
                             onChange={e => this.updateInput("newItem", e.target.value)}
                             onKeyDown={this.handleKeyDown}
                         />
                         <button onClick={() => this.addItem()} disabled={!this.state.newItem.length}>
-                            <i>Добавить</i>
+                           Добавить
                         </button>
                         <br/> <br/>
                         <ul>
@@ -95,7 +93,7 @@ class App extends React.Component {
                                     <li key={item.id}>
                                         {item.value}
                                         <button onClick={() => this.addDoneItem(item.id)}>
-                                            <i>Готово</i>
+                                           Готово
                                         </button>
                                     </li>
                                 );
