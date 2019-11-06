@@ -3,8 +3,20 @@ import ReactDOM from 'react-dom';
 import 'typeface-roboto'
 import '@material-ui/core'
 import './index.css';
+import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import {Input} from "@material-ui/core";
 
+
+const CardStyle = {
+    width: "300px"
+};
+
+const CardHolder = {
+    display: "flex"
+};
 
 class App extends React.Component {
     constructor(props) {
@@ -71,50 +83,54 @@ class App extends React.Component {
 
     render() {
         return (
-            <div>
-                <div className="container">
-
-                    <div>
-                        <br/>
-                        <input
-                            type="text"
-                            placeholder="Введите текст..."
-                            value={this.state.newItem}
-                            onChange={e => this.updateInput("newItem", e.target.value)}
-                            onKeyDown={this.handleKeyDown}
-                        />
-                        <button onClick={() => this.addItem()} disabled={!this.state.newItem.length}>
-                           Добавить
-                        </button>
-                        <br/> <br/>
-                        <ul>
-                            {this.state.listToDo.map(item => {
-                                return (
-                                    <li key={item.id}>
-                                        {item.value}
-                                        <button onClick={() => this.addDoneItem(item.id)}>
-                                           Готово
-                                        </button>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-
-                        <ul>
-                            {this.state.listDone.map(item => {
-                                return (
-                                    <li key={item.id}>
-                                        {item.value}
-                                        <button onClick={() => this.addToDoItem(item.id)}>
-                                            <i>Не готово</i>
-                                        </button>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </div>
+            <Container>
+                <br/>
+                <Input
+                    type="text"
+                    placeholder="Введите текст..."
+                    value={this.state.newItem}
+                    onChange={e => this.updateInput("newItem", e.target.value)}
+                    onKeyDown={this.handleKeyDown}
+                />
+                <Button onClick={() => this.addItem()} disabled={!this.state.newItem.length}>Добавить</Button>
+                <br/> <br/>
+                <div style={CardHolder}>
+                    <Card style={CardStyle}>
+                        <CardContent>
+                            <h3>Не готово</h3>
+                            <ul>
+                                {this.state.listToDo.map(item => {
+                                    return (
+                                        <li key={item.id}>
+                                            {item.value}
+                                            <button onClick={() => this.addDoneItem(item.id)}>
+                                                Готово
+                                            </button>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </CardContent>
+                    </Card>
+                    <Card style={CardStyle}>
+                        <CardContent>
+                            <h3>Готово</h3>
+                            <ul>
+                                {this.state.listDone.map(item => {
+                                    return (
+                                        <li key={item.id}>
+                                            {item.value}
+                                            <button onClick={() => this.addToDoItem(item.id)}>
+                                                <i>Не готово</i>
+                                            </button>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </CardContent>
+                    </Card>
                 </div>
-            </div>
+            </Container>
         );
     }
 }
